@@ -12,6 +12,7 @@ class DetailActivity : AppCompatActivity() {
 
     companion object {
         const val INTENT_EXTRA_LETTER = "letter"
+        const val SEARCH_PREFIX = "https://www.google.com/search?q="
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

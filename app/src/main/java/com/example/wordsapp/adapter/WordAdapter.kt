@@ -1,6 +1,8 @@
 package com.example.wordsapp.adapter
 
 import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +12,7 @@ import android.widget.Button
 import androidx.annotation.LayoutRes
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
+import com.example.wordsapp.DetailActivity
 import com.example.wordsapp.R
 
 class WordAdapter(private val letterId: String, context: Context) :
@@ -57,7 +60,11 @@ class WordAdapter(private val letterId: String, context: Context) :
         val item = filteredWords[position]
         val context = holder.view.context
         holder.button.text = item
-
+        holder.button.setOnClickListener {
+            val queryUrl: Uri = Uri.parse("${DetailActivity.SEARCH_PREFIX}$item")
+            val intent = Intent(Intent.ACTION_VIEW, queryUrl)
+            context.startActivity(intent)
+        }
     }
 
     // Setup custom accessibility delegate to set the text read with
