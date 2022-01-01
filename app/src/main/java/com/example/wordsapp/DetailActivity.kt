@@ -16,7 +16,7 @@ class DetailActivity : AppCompatActivity() {
         val binding = ActivityDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val letterId = intent?.extras?.getString("letter") ?: "A"
+        val letterId = intent?.extras?.getString("letter").toString()
 
         val recyclerView = binding.recyclerView
         recyclerView.layoutManager = LinearLayoutManager(this)
