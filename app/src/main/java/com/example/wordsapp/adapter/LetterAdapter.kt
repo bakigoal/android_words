@@ -1,6 +1,5 @@
 package com.example.wordsapp.adapter
 
-import android.content.Intent
 import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
@@ -9,9 +8,10 @@ import android.view.accessibility.AccessibilityNodeInfo
 import android.widget.Button
 import androidx.annotation.LayoutRes
 import androidx.annotation.RequiresApi
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
-import com.example.wordsapp.DetailActivity
 import com.example.wordsapp.R
+import com.example.wordsapp.fragment.LetterListFragmentDirections
 
 class LetterAdapter : RecyclerView.Adapter<LetterAdapter.LetterViewHolder>() {
 
@@ -46,10 +46,10 @@ class LetterAdapter : RecyclerView.Adapter<LetterAdapter.LetterViewHolder>() {
         val item = list[position]
         holder.button.text = item.toString()
         holder.button.setOnClickListener {
-            val context = holder.view.context
-            val intent = Intent(context, DetailActivity::class.java)
-            intent.putExtra(DetailActivity.INTENT_EXTRA_LETTER, holder.button.text.toString())
-            context.startActivity(intent)
+            val direction = LetterListFragmentDirections.actionLetterListFragmentToWordListFragment(
+                holder.button.text.toString()
+            )
+            holder.view.findNavController().navigate(direction)
         }
     }
 
