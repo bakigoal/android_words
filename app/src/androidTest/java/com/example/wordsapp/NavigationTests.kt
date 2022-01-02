@@ -1,5 +1,6 @@
 package com.example.wordsapp
 
+import androidx.fragment.app.testing.FragmentScenario
 import androidx.fragment.app.testing.launchFragmentInContainer
 import androidx.navigation.Navigation
 import androidx.navigation.testing.TestNavHostController
@@ -16,6 +17,7 @@ import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.wordsapp.fragment.LetterListFragment
 import org.junit.Assert.assertEquals
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -25,6 +27,20 @@ class NavigationTests {
 
     @get:Rule
     val activity = ActivityScenarioRule(MainActivity::class.java)
+
+    private lateinit var navController: TestNavHostController
+    private lateinit var lettersListFragmentScenario: FragmentScenario<LetterListFragment>
+
+    @Before
+    fun setup() {
+        navController = TestNavHostController(ApplicationProvider.getApplicationContext())
+        lettersListFragmentScenario = launchFragmentInContainer(themeResId = R.style.Theme_Words)
+
+        lettersListFragmentScenario.onFragment { fragment ->
+            navController.setGraph(R.navigation.nav_graph)
+            Navigation.setViewNavController(fragment.requireView(), navController)
+        }
+    }
 
     @Test
     fun navigate_to_word() {
@@ -38,15 +54,6 @@ class NavigationTests {
 
     @Test
     fun navigate_to_words_nav_component() {
-        val navController = TestNavHostController(ApplicationProvider.getApplicationContext())
-        val lettersListFragmentScenario =
-            launchFragmentInContainer<LetterListFragment>(themeResId = R.style.Theme_Words)
-
-        lettersListFragmentScenario.onFragment { fragment ->
-            navController.setGraph(R.navigation.nav_graph)
-            Navigation.setViewNavController(fragment.requireView(), navController)
-        }
-
         onView(withId(R.id.recycler_view))
             .perform(
                 RecyclerViewActions
