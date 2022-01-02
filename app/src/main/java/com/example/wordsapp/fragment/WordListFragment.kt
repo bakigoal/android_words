@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.wordsapp.R
@@ -14,7 +15,6 @@ import com.example.wordsapp.databinding.FragmentWordListBinding
 class WordListFragment : Fragment() {
 
     companion object {
-        const val INTENT_EXTRA_LETTER = "letter"
         const val SEARCH_PREFIX = "https://www.google.com/search?q="
     }
 
@@ -28,11 +28,10 @@ class WordListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val letterId = WordListFragmentArgs.fromBundle(requireArguments()).letter
-
+        val args by navArgs<WordListFragmentArgs>()
         val recyclerView = binding.recyclerView
         recyclerView.layoutManager = LinearLayoutManager(context)
-        recyclerView.adapter = WordAdapter(letterId, requireContext())
+        recyclerView.adapter = WordAdapter(args.letter, requireContext())
 
         // Adds a [DividerItemDecoration] between items
         recyclerView.addItemDecoration(
@@ -42,6 +41,6 @@ class WordListFragment : Fragment() {
             )
         )
 
-        requireActivity().title = getString(R.string.detail_prefix) + " " + letterId
+        requireActivity().title = getString(R.string.detail_prefix) + " " + args
     }
 }
