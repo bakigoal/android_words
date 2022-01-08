@@ -52,6 +52,8 @@ class LetterListFragment : Fragment() {
         settingsDataStore.preferenceFlow.asLiveData().observe(viewLifecycleOwner, {
             isLinearLayout = it
             chooseLayout()
+            // Redraw the menu
+            activity?.invalidateOptionsMenu()
         })
     }
 
@@ -94,7 +96,7 @@ class LetterListFragment : Fragment() {
         menuItem?.icon = if (isLinearLayout) {
             ContextCompat.getDrawable(requireContext(), R.drawable.ic_view_list)
         } else {
-            ContextCompat.getDrawable(requireContext(), R.drawable.ic_view_list)
+            ContextCompat.getDrawable(requireContext(), R.drawable.ic_view_grid)
         }
     }
 }
